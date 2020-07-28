@@ -136,6 +136,7 @@ def test_learning_is_just_checking_when_fully_explored():
     assert calls == 1
 
 
+<<<<<<< 7a5c71659917e6f1bc36ef586d503c4424f0fa15
 def test_canonicalises_values_to_zero_where_appropriate():
     calls = [0]
 
@@ -171,3 +172,18 @@ def test_normalizing_can_be_made_to_distinguish_values():
     assert normalizer.distinguish(10, lambda n: n >= 5)
     assert normalizer.normalize(10) == 5
     assert normalizer.normalize(4) == 0
+
+
+def test_learning_large_dfa():
+    """Mostly the thing this is testing is actually that this runs in reasonable
+    time. A naive breadth first search will run ~forever when trying to find this
+    because it will have to explore all strings of length 19 before it finds one
+    of length 20."""
+
+    learner = LStar(lambda s: len(s) == 20)
+
+    learner.learn(bytes(20))
+
+    for i, s in enumerate(itertools.islice(learner.dfa.all_matching_strings(), 500)):
+        assert len(s) == 20
+        assert i == int.from_bytes(s, "big")
