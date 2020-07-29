@@ -570,3 +570,23 @@ def test_shrink_pass_method_is_idempotent():
     sp = shrinker.shrink_pass("adaptive_example_deletion")
     assert isinstance(sp, ShrinkPass)
     assert shrinker.shrink_pass(sp) is sp
+
+
+@pytest.mark.parametrize("n_gap", [0, 1, 2, 3])
+def test_can_simultaneously_lower_non_duplicated_nearby_blocks(n_gap):
+    @shrinking_from([1, 1] + [0] * n_gap + [0, 2])
+    def shrinker(data):
+        # Block off lowering the whole buffer
+        if data.draw_bits(1) == 0:
+            data.mark_invalid()
+        m = data.draw_bits(8)
+        for _ in range(n_gap):
+            data.draw_bits(8)
+        n = data.draw_bits(16)
+
+        if n == m + 1:
+            data.mark_interesting()
+
+    shrinker.fixate_shrink_passes(["lower_blocks_together"])
+
+    assert list(shrinker.buffer) == [1, 0] + [0] * n_gap + [0, 1]
