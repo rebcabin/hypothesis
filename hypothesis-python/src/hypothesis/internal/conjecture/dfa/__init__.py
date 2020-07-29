@@ -15,10 +15,9 @@
 
 import threading
 from collections import deque
+from math import inf
 
 from hypothesis.internal.reflection import proxies
-
-INFINITY = float("inf")
 
 
 class DFA:
@@ -92,7 +91,7 @@ class DFA:
         if self.is_dead(i):
             return 0
         if i in self.reachable(i):
-            return INFINITY
+            return inf
         next_states = {self.max_length(j) for _, j in self.transitions(i)}
         if next_states:
             return 1 + max(next_states)
