@@ -136,7 +136,6 @@ def test_learning_is_just_checking_when_fully_explored():
     assert calls == 1
 
 
-<<<<<<< 7a5c71659917e6f1bc36ef586d503c4424f0fa15
 def test_canonicalises_values_to_zero_where_appropriate():
     calls = [0]
 
