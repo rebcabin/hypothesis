@@ -2,10 +2,10 @@
 Stateful testing
 ================
 
-With :func:`@given <hypothesis.given>`, your tests are still something that
-you mostly write yourself, with Hypothesis providing some data.
+With :func:`@given <hypothesis.given>`, you still mostly write your tests
+yourself, with Hypothesis providing some data.
 With Hypothesis's *stateful testing*, Hypothesis instead tries to generate
-not just data but entire tests. You specify a number of primitive
+not just data but entire tests. You specify primitive
 actions that can be combined together, and then Hypothesis will
 try to find sequences of those actions that result in a failure.
 
@@ -39,20 +39,20 @@ For simpler cases though, you might not need them at all - a standard test
 with :func:`@given <hypothesis.given>` might be enough, since you can use
 :func:`~hypothesis.strategies.data` in branches or loops.  In fact, that's
 how the state machine explorer works internally.  For more complex workloads
-though, where a higher level API comes into it's own, keep reading!
+though, where a higher level API comes into its own, keep reading!
 
 
 .. _rulebasedstateful:
 
 -------------------------
-Rule based state machines
+Rule-based state machines
 -------------------------
 
 .. autoclass:: hypothesis.stateful.RuleBasedStateMachine
 
-A rule is very similar to a normal ``@given`` based test in that it takes
-values drawn from strategies and passes them to a user defined test function.
-The key difference is that where ``@given`` based tests must be independent,
+A rule is very similar to a normal ``@given``-based test in that it takes
+values drawn from strategies and passes them to a user-defined test function.
+The key difference is that where ``@given``-based tests must be independent,
 rules can be chained together - a single test run may involve multiple rule
 invocations, which may interact in various ways.
 
@@ -67,13 +67,13 @@ You can think of each value that gets added to any Bundle as being assigned to
 a new variable.  Drawing a value from the bundle strategy means choosing one of
 the corresponding variables and using that value, and
 :func:`~hypothesis.stateful.consumes` as a ``del`` statement for that variable.
-If you can replace use of Bundles with instance attributes of the class that
+If you can replace use of Bundles with instance attributes of the class, that
 is often simpler, but often Bundles are strictly more powerful.
 
-The following rule based state machine example is a simplified version of a
+The following rule-based state machine example is a simplified version of a
 test for Hypothesis's example database implementation. An example database
 maps keys to sets of values, and in this test we compare one implementation of
-it to a simplified in memory model of its behaviour, which just stores the same
+it to a simplified in-memory model of its behaviour, which just stores the same
 values in a Python ``dict``. The test then runs operations against both the
 real database and the in-memory representation of it and looks for discrepancies
 in their behaviour.
@@ -164,7 +164,7 @@ we would see the following output when run under pytest:
     state.teardown()
 
 Note how it's printed out a very short program that will demonstrate the
-problem. The output from a rule based state machine should generally be pretty
+problem. The output from a rule-based state machine should generally be pretty
 close to Python code - if you have custom ``repr`` implementations that don't
 return valid Python then it might not be, but most of the time you should just
 be able to copy and paste the code into a test to reproduce it.
@@ -322,13 +322,13 @@ Note that currently invariants can't access bundles; if you need to use
 invariants, you should store relevant data on the instance instead.
 
 -------------------------
-More fine grained control
+More fine-grained control
 -------------------------
 
-If you want to bypass the TestCase infrastructure you can invoke these
+If you want to bypass the TestCase infrastructure, you can invoke these
 manually. The stateful module exposes the function ``run_state_machine_as_test``,
 which takes an arbitrary function returning a RuleBasedStateMachine and an
-optional settings parameter and does the same as the class based runTest
+optional settings parameter and does the same as the class-based runTest
 provided.
 
 This is not recommended as it bypasses some important internal functions,
